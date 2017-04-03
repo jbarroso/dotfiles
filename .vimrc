@@ -79,6 +79,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " Plugin List:
+Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
 Plugin 'mhinz/vim-signify'
 Plugin 'altercation/vim-colors-solarized'
@@ -93,6 +94,7 @@ Plugin 'mxw/vim-jsx'
 Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'janko-m/vim-test'
+"Plugin 'takac/vim-hardtime'
 
 call vundle#end()
 filetype plugin indent on
@@ -196,7 +198,7 @@ map <silent> <leader>g :CtrlPTag<cr><C-\>w
 map <silent> <leader>b :e#<cr>
 let g:ctrlp_match_current_file = 1
 let g:ctrlp_lazy_update = 1
-"let g:ctrlp_extensions = ['tag', 'buffertag']
+let g:ctrlp_extensions = ['tag', 'buffertag']
 "let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 "let g:ctrlp_use_caching = 0
 
@@ -259,9 +261,9 @@ let g:jsx_ext_required = 0
 let g:gutentags_cache_dir = '~/.vim/gutentags'
 " Excluding files from generating tags
 let g:gutentags_ctags_exclude = [
-      \ '*node_modules/',
-      \ '*build/',
-      \ '*.html', '*.css',
+      \ 'node_modules', '*.min.js',
+      \ 'build',
+      \ '*.html', '*.css', '*.json',
       \ '*.phar', '*.ini', '*.rst', '*.md',
       \ '*vendor/*/test*', '*vendor/*/Test*',
       \ '*vendor/*/fixture*', '*vendor/*/Fixture*',
