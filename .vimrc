@@ -84,6 +84,7 @@ Plugin 'mhinz/vim-signify'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'itchyny/lightline.vim'
 Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'vim-syntastic/syntastic'
@@ -91,6 +92,7 @@ Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'janko-m/vim-test'
 
 call vundle#end()
 filetype plugin indent on
@@ -257,8 +259,25 @@ let g:jsx_ext_required = 0
 let g:gutentags_cache_dir = '~/.vim/gutentags'
 " Excluding files from generating tags
 let g:gutentags_ctags_exclude = [
-      \ '*node_modules/*',
+      \ '*node_modules/',
+      \ '*build/',
+      \ '*.html', '*.css',
       \ '*.phar', '*.ini', '*.rst', '*.md',
       \ '*vendor/*/test*', '*vendor/*/Test*',
       \ '*vendor/*/fixture*', '*vendor/*/Fixture*',
       \ '*var/cache*', '*var/log*']
+
+" ******************************************************************************
+" => vim-test
+" ******************************************************************************
+" nmap <silent> <leader>t :TestNearest<CR>
+" nmap <silent> <leader>T :TestFile<CR>
+" nmap <silent> <leader>a :TestSuite<CR>
+" nmap <silent> <leader>l :TestLast<CR>
+" nmap <silent> <leader>g :TestVisit<CR>
+
+let test#php#phpunit#options = {
+  \ 'nearest': '--config tests/phpunit.xml',
+  \ 'file':    '--config tests/phpunit.xml',
+  \ 'suite':    '--config tests/phpunit.xml',
+  \}
