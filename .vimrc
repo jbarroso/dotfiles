@@ -95,6 +95,10 @@ Plugin 'ludovicchabant/vim-gutentags'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'janko-m/vim-test'
 "Plugin 'takac/vim-hardtime'
+"vim-markdown:  tabular is required
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'suan/vim-instant-markdown'
 
 call vundle#end()
 filetype plugin indent on
@@ -283,3 +287,16 @@ let test#php#phpunit#options = {
   \ 'file':    '--config tests/phpunit.xml',
   \ 'suite':    '--config tests/phpunit.xml',
   \}
+
+" ******************************************************************************
+" => vim-markdown
+" ******************************************************************************
+" Disable folding
+let g:vim_markdown_folding_disabled = 1
+
+" vim-instant-markdown
+" [sudo] npm -g install instant-markdown-d
+" If you're on Linux, ensure the following packages are installed:
+" xdg-utils
+" curl
+
