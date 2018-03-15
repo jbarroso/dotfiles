@@ -59,6 +59,9 @@ set laststatus=2
 " Everything yanking will go to the unnamed register, and vice versa.
 set clipboard=unnamedplus
 
+" vsplit puts the new buffer on the right of the current buffer
+set splitright
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -214,7 +217,7 @@ let g:lightline = {
       \ 'colorscheme': 'solarized',
       \ 'active': {
       \   'left': [ ['mode', 'paste'],
-      \             ['fugitive', 'readonly', 'filename', 'modified'] ],
+      \             ['fugitive', 'readonly', 'relativepath', 'modified'] ],
       \   'right': [ [ 'lineinfo' ], ['percent'] ]
       \ },
       \ 'component': {
