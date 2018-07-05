@@ -65,47 +65,55 @@ set splitright
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Help:
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Vundle begin
-filetype off
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin('~/.vim/plugged')
 
 " Plugin List:
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-fugitive'
-Plugin 'mhinz/vim-signify'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'itchyny/lightline.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'pangloss/vim-javascript'
-Plugin 'mxw/vim-jsx'
-Plugin 'ludovicchabant/vim-gutentags'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'janko-m/vim-test'
-"Plugin 'takac/vim-hardtime'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'mhinz/vim-signify'
+Plug 'altercation/vim-colors-solarized'
+Plug 'itchyny/lightline.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'vim-syntastic/syntastic'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'janko-m/vim-test'
+"Plug 'takac/vim-hardtime'
 "vim-markdown:  tabular is required
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'suan/vim-instant-markdown'
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+Plug 'suan/vim-instant-markdown'
 
-call vundle#end()
-filetype plugin indent on
-" Vundle end
+Plug 'StanAngeloff/php.vim'
+
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
+Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install'}
+Plug 'roxma/ncm-phpactor'
+Plug 'kristijanhusak/deoplete-phpactor'
+
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+
+call plug#end()
+
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -193,6 +201,9 @@ function! StartUp()
     end
 endfunction
 
+" Autorefresh on buffer write
+" autocmd BufWritePost * NERDTreeFocus | execute 'normal R' | wincmd p
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => ctrlp: Fuzzy file, buffer, mru, tag, etc finder
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -200,7 +211,7 @@ endfunction
 "map <leader>tb :CtrlPBufTag<cr>
 "map <leader>ta :CtrlPTag<cr>
 " Jump to definition: <C->w means “insert word under cursor”
-map <silent> <leader>g :CtrlPTag<cr><C-\>w
+"map <silent> <leader>g :CtrlPTag<cr><C-\>w
 " Go back (it opens previous buffer)
 map <silent> <leader>b :e#<cr>
 let g:ctrlp_match_current_file = 1
@@ -259,23 +270,6 @@ let g:syntastic_javascript_eslint_exec = 'eslint_d'
 " files with the .jsx extension. If you would like JSX in .js files, add
 let g:jsx_ext_required = 0
 
-
-" ******************************************************************************
-" => gutentags apt-get install exuberant-ctags
-" ******************************************************************************
-
-" Where to store tag files
-let g:gutentags_cache_dir = '~/.vim/gutentags'
-" Excluding files from generating tags
-let g:gutentags_ctags_exclude = [
-      \ 'node_modules', '*.min.js',
-      \ 'build',
-      \ '*.html', '*.css', '*.json',
-      \ '*.phar', '*.ini', '*.rst', '*.md',
-      \ '*vendor/*/test*', '*vendor/*/Test*',
-      \ '*vendor/*/fixture*', '*vendor/*/Fixture*',
-      \ '*var/cache*', '*var/log*']
-
 " ******************************************************************************
 " => vim-test
 " ******************************************************************************
@@ -303,3 +297,72 @@ let g:vim_markdown_folding_disabled = 1
 " xdg-utils
 " curl
 
+" ******************************************************************************
+" => deoplete
+" ******************************************************************************
+
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#disable_auto_complete = 1
+let g:neosnippet#enable_completed_snippet = 1
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+" deoplete tab-complete
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+" ******************************************************************************
+" => neosnippet
+" ******************************************************************************
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"C-k to select-and-expand a snippet from the deoplete popup
+" (Use C-n and C-p to select it). C-k can also be used to jump to the next field in the snippet.
+" Tab to select the next field to fill in the snippet.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+
+" ******************************************************************************
+" => phpactor
+" ******************************************************************************
+autocmd FileType php setlocal omnifunc=phpactor#Complete
+
+" Include use statement
+nmap <Leader>ru :call phpactor#UseAdd()<CR>
+
+" Invoke the context menu
+nmap <Leader>rmm :call phpactor#ContextMenu()<CR>
+
+" Invoke the navigation menu
+nmap <Leader>rnn :call phpactor#Navigate()<CR>
+
+" Goto definition of class or class member under the cursor
+nmap <Leader>ro :call phpactor#GotoDefinition()<CR>
+
+" Transform the classes in the current file
+nmap <Leader>rtt :call phpactor#Transform()<CR>
+
+" Generate a new class (replacing the current file)
+nmap <Leader>rcc :call phpactor#ClassNew()<CR>
+
+" Extract expression (normal mode)
+nmap <silent><Leader>ree :call phpactor#ExtractExpression(v:false)<CR>
+
+" Extract expression from selection
+vmap <silent><Leader>ree :<C-U>call phpactor#ExtractExpression(v:true)<CR>
+
+" Extract method from selection
+vmap <silent><Leader>rem :<C-U>call phpactor#ExtractMethod()<CR>
+
+let g:phpactorOmniError = v:true
