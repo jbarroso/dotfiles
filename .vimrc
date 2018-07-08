@@ -81,7 +81,8 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'itchyny/lightline.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'vim-syntastic/syntastic'
 Plug 'pangloss/vim-javascript'
@@ -205,20 +206,35 @@ endfunction
 " autocmd BufWritePost * NERDTreeFocus | execute 'normal R' | wincmd p
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => ctrlp: Fuzzy file, buffer, mru, tag, etc finder
+" => fzf
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"map <leader>f :CtrlPBuffer<cr>
-"map <leader>tb :CtrlPBufTag<cr>
-"map <leader>ta :CtrlPTag<cr>
-" Jump to definition: <C->w means “insert word under cursor”
-"map <silent> <leader>g :CtrlPTag<cr><C-\>w
-" Go back (it opens previous buffer)
-map <silent> <leader>b :e#<cr>
-let g:ctrlp_match_current_file = 1
-let g:ctrlp_lazy_update = 1
-let g:ctrlp_extensions = ['tag', 'buffertag']
-"let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
-"let g:ctrlp_use_caching = 0
+" Buffers opens
+nnoremap <leader>b :Buffers<cr>
+
+" Files recursively from pwd
+nnoremap <leader>f :Files<cr>
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+      \ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-b': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => lightline statusbar
