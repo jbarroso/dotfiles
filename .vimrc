@@ -260,6 +260,8 @@ let g:syntastic_mode_map = { 'mode': 'active',
 
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exec = 'eslint_d'
+let g:syntastic_php_checkers=['php', 'phpcs']
+let g:syntastic_php_phpcs_args='--standard=PSR2 -n'
 
 
 " ******************************************************************************
@@ -273,16 +275,16 @@ let g:jsx_ext_required = 0
 " ******************************************************************************
 " => vim-test
 " ******************************************************************************
-" nmap <silent> <leader>t :TestNearest<CR>
-" nmap <silent> <leader>T :TestFile<CR>
-" nmap <silent> <leader>a :TestSuite<CR>
-" nmap <silent> <leader>l :TestLast<CR>
-" nmap <silent> <leader>g :TestVisit<CR>
+nmap <silent> <leader>t :TestNearest<CR>
+nmap <silent> <leader>T :TestFile<CR>
+nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>l :TestLast<CR>
+nmap <silent> <leader>g :TestVisit<CR>
 
 let test#php#phpunit#options = {
-  \ 'nearest': '--config tests/phpunit.xml',
-  \ 'file':    '--config tests/phpunit.xml',
-  \ 'suite':    '--config tests/phpunit.xml',
+  \ 'nearest': '--config phpunit.xml',
+  \ 'file':    '--config phpunit.xml',
+  \ 'suite':    '--config phpunit.xml',
   \}
 
 " ******************************************************************************
@@ -338,31 +340,14 @@ endif
 " ******************************************************************************
 autocmd FileType php setlocal omnifunc=phpactor#Complete
 
-" Include use statement
-nmap <Leader>ru :call phpactor#UseAdd()<CR>
-
-" Invoke the context menu
-nmap <Leader>rmm :call phpactor#ContextMenu()<CR>
-
-" Invoke the navigation menu
-nmap <Leader>rnn :call phpactor#Navigate()<CR>
-
-" Goto definition of class or class member under the cursor
-nmap <Leader>ro :call phpactor#GotoDefinition()<CR>
-
-" Transform the classes in the current file
-nmap <Leader>rtt :call phpactor#Transform()<CR>
-
-" Generate a new class (replacing the current file)
-nmap <Leader>rcc :call phpactor#ClassNew()<CR>
-
-" Extract expression (normal mode)
-nmap <silent><Leader>ree :call phpactor#ExtractExpression(v:false)<CR>
-
-" Extract expression from selection
-vmap <silent><Leader>ree :<C-U>call phpactor#ExtractExpression(v:true)<CR>
-
-" Extract method from selection
-vmap <silent><Leader>rem :<C-U>call phpactor#ExtractMethod()<CR>
+nmap <Leader>pu :call phpactor#UseAdd()<CR>
+nmap <Leader>pmm :call phpactor#ContextMenu()<CR>
+nmap <Leader>pnn :call phpactor#Navigate()<CR>
+nmap <Leader>po :call phpactor#GotoDefinition()<CR>
+nmap <Leader>ptt :call phpactor#Transform()<CR>
+nmap <Leader>pcc :call phpactor#ClassNew()<CR>
+nmap <silent><Leader>pee :call phpactor#ExtractExpression(v:false)<CR>
+vmap <silent><Leader>pee :<C-U>call phpactor#ExtractExpression(v:true)<CR>
+vmap <silent><Leader>pem :<C-U>call phpactor#ExtractMethod()<CR>
 
 let g:phpactorOmniError = v:true
