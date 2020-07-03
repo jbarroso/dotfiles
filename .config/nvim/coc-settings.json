@@ -5,5 +5,5 @@
   "diagnostic.infoSign": "⚠️",
 	"coc.preferences.formatOnSaveFiletypes": [], //"css", "Markdown", "javascript", "html", "scss"],
   "prettier.eslintIntegration": true,
-  "prettier.stylelintIntegration": true,
+  "prettier.stylelintIntegration": true
 }
